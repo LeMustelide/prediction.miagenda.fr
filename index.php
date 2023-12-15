@@ -18,21 +18,29 @@ if (isset($_POST['submit'])) {
     //     }
     // }
     $formule = "";
-    $communMean = 0;
     if (!isset($erreur)) {
         // on continue
         $miagesum = 0;
         $miagecount = 0;
         foreach ($data[$_GET['class']] as $k => $v) {
             if (isset($v['epreuve'])) {
+                $temp = 0;
+                $tempCoef = 0;
+                if ($formule != "") {
+                    $formule .= " + ";
+                }
+                $formule .= "(";
                 foreach ($v['epreuve'] as $epreuve => $coef) {
-                    $miagesum += $coef * floatval(htmlspecialchars($_POST[$k . "_" . $epreuve]));
-                    $miagecount += $coef;
-                    if ($formule != "") {
+                    if($temp != 0) {
                         $formule .= " + ";
                     }
+                    $temp += $coef * floatval(htmlspecialchars($_POST[$k . "_" . $epreuve]));
+                    $tempCoef += $coef;
                     $formule .= round($coef, 2) . " * " . floatval(htmlspecialchars($_POST[$k . "_" . $epreuve]));
                 }
+                $formule .= ") * " . $v['coef'];
+                $miagesum += $v['coef'] * ($temp / $tempCoef);
+                $miagecount += $v['coef'];
             } else {
                 $miagesum += $v['coef'] * floatval(htmlspecialchars($_POST[$k]));
                 $miagecount += $v['coef'];
@@ -44,7 +52,7 @@ if (isset($_POST['submit'])) {
         }
         $miageMean = round($miagesum / $miagecount, 2);
 
-        $moyenne = round(($miageMean + $communMean), 2);
+        $moyenne = round($miageMean, 2);
     }
 
     $formule .= " = ($miagesum / $miagecount)";

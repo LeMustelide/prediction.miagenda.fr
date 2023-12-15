@@ -1,4 +1,4 @@
-<form action="#" method="POST" style="display: flex; justify-content: center; flex-wrap: wrap;  align-items: center">
+<form action="#" method="POST" class="form">
     <?php
     foreach ($data[$_GET['class']] as $k => $v) {
         echo "<div class='notes'>
