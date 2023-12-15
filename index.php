@@ -1,30 +1,46 @@
 <?php
-include 'data.php';
-include 'header.php';
 
+include_once 'data.php';
+include_once 'header.php';
+
+if (!isset($_GET['class'])) {
+    include 'class-list.php';
+}
 
 if (isset($_POST['submit'])) {
-    foreach ($key as $k) {
-        if (!(isset($_POST[$k]) && $_POST[$k] != "")) {
-            $erreur = "Vous devez remplir tout les champs";
-        } else {
-            if (!($_POST[$k] >= 0)) {
-                $erreur = "Tu dois mettre des nombres..";
-            }
-        }
-    }
-
+    // foreach ($key as $k) {
+    //     if (!(isset($_POST[$k]) && $_POST[$k] != "")) {
+    //         $erreur = "Vous devez remplir tout les champs";
+    //     } else {
+    //         if ($_POST[$k] < 0) {
+    //             $erreur = "Tu dois mettre des nombres..";
+    //         }
+    //     }
+    // }
+    $formule = "";
+    $communMean = 0;
     if (!isset($erreur)) {
         // on continue
         $miagesum = 0;
         $miagecount = 0;
         foreach ($data[$_GET['class']] as $k => $v) {
-            $miagesum += $v['coef'] * intval(htmlspecialchars($_POST[$k]));
-            $miagecount += $v['coef'];
-            if ($formule != "") {
-                $formule .= " + ";
+            if (isset($v['epreuve'])) {
+                foreach ($v['epreuve'] as $epreuve => $coef) {
+                    $miagesum += $coef * floatval(htmlspecialchars($_POST[$k . "_" . $epreuve]));
+                    $miagecount += $coef;
+                    if ($formule != "") {
+                        $formule .= " + ";
+                    }
+                    $formule .= round($coef, 2) . " * " . floatval(htmlspecialchars($_POST[$k . "_" . $epreuve]));
+                }
+            } else {
+                $miagesum += $v['coef'] * floatval(htmlspecialchars($_POST[$k]));
+                $miagecount += $v['coef'];
+                if ($formule != "") {
+                    $formule .= " + ";
+                }
+                $formule .= $v['coef'] . " * " . floatval(htmlspecialchars($_POST[$k]));
             }
-            $formule .= $v['coef'] . " * " . intval(htmlspecialchars($_POST[$k]));
         }
         $miageMean = round($miagesum / $miagecount, 2);
 
@@ -33,9 +49,9 @@ if (isset($_POST['submit'])) {
 
     $formule .= " = ($miagesum / $miagecount)";
     $formule .= " = $miageMean";
-    //echo $formule;
 }
 
+ 
 
 ?>
 
@@ -67,5 +83,7 @@ if (isset($_POST['submit'])) {
         </div>
     <?php }
 
-    include 'form.php';
+    if (isset($_GET['class'])) {
+        include 'form.php';
+    }
     include 'footer.php';

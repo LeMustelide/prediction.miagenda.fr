@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Master M1 MIAGE - Prédiction</title>
     <link rel="stylesheet" href="./global.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 </head>
 <body>
     <div class="navbar">

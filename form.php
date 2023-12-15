@@ -1,25 +1,49 @@
 <form action="#" method="POST" style="display: flex; justify-content: center; flex-wrap: wrap;  align-items: center">
     <?php
-    print_r($data);
     foreach ($data[$_GET['class']] as $k => $v) {
-        echo "<div class='notes'>";
-        echo "<label for='$k'>" . $v['nom'] . "</label>";
-        echo "<div class='noteInput'>";
-        echo "<div class='prev-btn' onclick='prevNum(this)'>";
-        echo "<span class='prev' ></span>";
-        echo "</div>";
-        echo "<div class='next-btn' onclick='nextNum(this)'>";
-        echo "<span class='next'></span>";
-        echo "</div>";
-        echo "<div class='box' min='0' max='20'>";
-        if (isset($_POST[$k]) && $_POST[$k] != "") {
-            echo $_POST[$k];
+        echo "<div class='notes'>
+                <label for='$k'>" . $v['nom'] . "</label>
+                ";
+        if(!isset($v['epreuve'])) {
+            echo "
+                <div class='noteInput'>
+                    <div class='prev-btn' onclick='prevNum(this)'>
+                        <span class='prev'></span>
+                    </div>
+                    <div class='next-btn' onclick='nextNum(this)'>
+                        <span class='next'></span>
+                    </div>
+                    <div class='box' min='0' max='20'>".
+                        (isset($_POST[$k]) && $_POST[$k] != "" ? $_POST[$k] : 10)
+                    ."</div>
+                    <input class='input' type='text' name='$k' value='".
+                        (isset($_POST[$k]) && $_POST[$k] != "" ? $_POST[$k] : 10)
+                    ."' hidden>
+                </div>
+            ";
         } else {
-            echo 10;
+            foreach ($v['epreuve'] as $epreuve => $coef) {
+                echo "
+                    <div class='notes-body'>
+                        <label for='$epreuve' hi>$epreuve</label>
+                        <div class='noteInput'>
+                            <div class='prev-btn' onclick='prevNum(this)'>
+                                <span class='prev'></span>
+                            </div>
+                            <div class='next-btn' onclick='nextNum(this)'>
+                                <span class='next'></span>
+                            </div>
+                            <div class='box' min='0' max='20'>".
+                                (isset($_POST[$k."_".$epreuve]) && $_POST[$k."_".$epreuve] != "" ? $_POST[$k."_".$epreuve] : 10)
+                            ."</div>
+                            <input class='input' type='text' name='$k.$epreuve' value='".
+                                (isset($_POST[$k."_".$epreuve]) && $_POST[$k."_".$epreuve] != "" ? $_POST[$k."_".$epreuve] : 10)
+                            ."' hidden>
+                        </div>
+                    </div>
+                ";
+            }
         }
-        echo "</div>";
-        echo "<input class='input' type='text' name='$k' value='" . ((isset($_POST[$k]) && $_POST[$k] != "") ? $_POST[$k] : 10) . "' hidden>";
-        echo "</div>";
         echo "</div>";
     }
     ?>
