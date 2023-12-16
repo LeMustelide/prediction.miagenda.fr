@@ -63,7 +63,6 @@ if (isset($_POST['submit'])) {
 
 ?>
 
-<div class="container">
     <?php
     if (isset($erreur)) {
         echo "<span style='color:red; font-weight: bold'>$erreur</span>";
