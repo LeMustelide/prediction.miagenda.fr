@@ -40,6 +40,9 @@
                                 (isset($_POST[$k."_".$epreuve]) && $_POST[$k."_".$epreuve] != "" ? $_POST[$k."_".$epreuve] : 10)
                             ."' hidden>
                         </div>
+                        <span class='material-symbols-outlined' id='lock' onclick='lockNote(this)'>
+                            lock_open
+                        </span>
                     </div>
                 ";
             }
@@ -48,5 +51,13 @@
     }
     ?>
     <div class="break"></div>
-    <input class="predire" type="submit" name="submit" value="Prédire le résultat 🤞">
+    <!-- <input class="predire" type="submit" name="submit" value="Prédire le résultat 🤞"> -->
+    <div class="break"></div>
+    <button type="button" class="predire" onclick="calculateMin()">combien pour avoir la moyenne</button>
+    <div class="break"></div>
+    <h2 class="resultat">
+    </h2>
+    <div class="break"></div>
+    <h2 class="resultat2">
+    </h2>
 </form>

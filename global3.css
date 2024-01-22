@@ -93,6 +93,10 @@ body {
   gap: 10px;
 }
 
+.notes-body #lock {
+  cursor: pointer;
+}
+
 .predire {
   box-shadow: 6px 6px 0px var(--shadow-color);
   margin: 10px;

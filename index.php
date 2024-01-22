@@ -8,15 +8,6 @@ if (!isset($_GET['class'])) {
 }
 
 if (isset($_POST['submit'])) {
-    // foreach ($key as $k) {
-    //     if (!(isset($_POST[$k]) && $_POST[$k] != "")) {
-    //         $erreur = "Vous devez remplir tout les champs";
-    //     } else {
-    //         if ($_POST[$k] < 0) {
-    //             $erreur = "Tu dois mettre des nombres..";
-    //         }
-    //     }
-    // }
     $formule = "";
     if (!isset($erreur)) {
         // on continue

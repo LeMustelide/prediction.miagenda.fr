@@ -1,0 +1,138 @@
+{
+    "M1 MIAGE alt": {
+        "anad": {
+            "nom": "Analyse des données",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "bdsi": {
+            "nom": "Base de données et systèmes d'information",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "crypto": {
+            "nom": "Cryptographie",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "mac": {
+            "nom": "Méthodes avancées de conception",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "lea": {
+            "nom": "Langages et automates",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "algo": {
+            "nom": "Algorithmique",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.5,
+                "CT": 0.5
+            }
+        },
+        "anglais": {
+            "nom": "Anglais",
+            "coef": 3,
+            "epreuve": {
+                "CC": 0.5,
+                "CT": 0.5
+            }
+        },
+        "proj": {
+            "nom": "Projet informatique",
+            "coef": 3,
+            "epreuve": {
+                "CC": 0.5,
+                "CT": 0.5
+            }
+        }
+    },
+    "M1 MIAGE fi": {
+        "anad": {
+            "nom": "Analyse des données",
+            "coef": 3,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "bdsi": {
+            "nom": "Base de données et systèmes d'information",
+            "coef": 3,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "crypto": {
+            "nom": "Cryptographie",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "mac": {
+            "nom": "Méthodes avancées de conception",
+            "coef": 4,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "lea": {
+            "nom": "Langages et automates",
+            "coef": 3,
+            "epreuve": {
+                "CC": 0.3333333333333333,
+                "CT": 0.6666666666666666
+            }
+        },
+        "algo": {
+            "nom": "Algorithmique",
+            "coef": 3,
+            "epreuve": {
+                "CC": 0.5,
+                "CT": 0.5
+            }
+        },
+        "anglais": {
+            "nom": "Anglais",
+            "coef": 2,
+            "epreuve": {
+                "CC": 0.5,
+                "CT": 0.5
+            }
+        },
+        "proj": {
+            "nom": "Projet informatique",
+            "coef": 3
+        },
+        "prod": {
+            "nom": "Production",
+            "coef": 3
+        },
+        "ppp": {
+            "nom": "PPP",
+            "coef": 2
+        }
+    }
+}
