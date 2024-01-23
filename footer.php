@@ -1,6 +1,8 @@
 
+    <div class="copy-message">
+        <p>Le lien de partage a été copié dans le presse-papier</p>
+    </div>
     <script src="./script.js"></script>
-    <h3 class="shareable-link"></h3>
 </body>
 
 </html>

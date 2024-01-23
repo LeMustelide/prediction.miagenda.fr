@@ -77,11 +77,17 @@ body {
 }
 
 .notes input {
-  margin: 5px;
+  background-color: transparent;
   border: 0px solid black;
   border-radius: 15px;
   text-align: center;
-  padding: 5px;
+  margin-left: -3px;
+  margin-top: -1px;
+  color: white;
+}
+
+.notes input:focus {
+  outline: none;
 }
 
 .notes .notes-body {
@@ -237,6 +243,7 @@ body {
 }
 
 .form {
+  position: relative;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -244,4 +251,50 @@ body {
 
 .btn {
   cursor: pointer;
+}
+
+.share-btn {
+  cursor: pointer;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.copy-message {
+  background: var(--notes-background);
+  color: var(--primary-text-color);
+  padding: 0 10px 0 10px;
+  border-radius: 12px;
+  opacity: 0;
+  position: absolute;
+  bottom: 15px;
+  right: 24px;
+}
+
+.show {
+  display: block !important;
+  opacity: 1;
+  animation: fade-in 0.3s ease-in-out;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.hide {
+  animation: fade-out 0.3s ease-in-out;
 }
