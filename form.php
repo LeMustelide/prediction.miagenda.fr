@@ -57,9 +57,6 @@
     <div class="break"></div>
     <button type="button" class="predire" onclick="calculateMin()">Combien pour valider ?</button>
     <div class="break"></div>
-    <h2 class="resultat">
-    </h2>
-    <div class="break"></div>
     <h2 class="resultat2">
     </h2>
 </form>

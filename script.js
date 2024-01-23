@@ -80,10 +80,13 @@ function calculate() {
         .then((response) => response.json())
         .then((data) => {
             average = calculateAverage(data, className);
-            document.querySelector(".resultat").innerHTML = average;
             if (average >= 10) {
+                document.querySelector(".title-resultat").innerHTML = "VAMOS 🙏";
+                document.querySelector(".resultat").innerHTML = "Tu devrais valider ton semestre avec "+average+" de moyenne";
                 document.querySelector(".resultat").style.color = "green";
             } else {
+                document.querySelector(".title-resultat").innerHTML = "Désolé.e 😢";
+                document.querySelector(".resultat").innerHTML = "Tu devrais terminer avec "+average+" de moyenne, ça ne valide pas ton semestre...";
                 document.querySelector(".resultat").style.color = "red";
                 //updateNotes(data, average);
             }
@@ -130,7 +133,7 @@ function calculateAverage(data, className) {
                     temp += coef * inputValue;
                     tempCoef += coef;
 
-                    formule += `${coef} * ${inputValue}`;
+                    formule += `${coef.toFixed(2)} * ${inputValue}`;
                 }
 
                 formule += `) * ${v["coef"]}`;
@@ -160,6 +163,7 @@ function calculateAverage(data, className) {
         formule += ` = ${miageMean}`;
 
         // console.log(formule); // Afficher la formule de calcul (facultatif)
+        document.querySelector(".formule").innerHTML = "La formule de calcul est : "+formule;
         shareableLink = generateShareableLink(notes);
         return moyenne;
     }
