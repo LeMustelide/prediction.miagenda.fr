@@ -55,7 +55,7 @@
     <div class="break"></div>
     <!-- <input class="predire" type="submit" name="submit" value="Prédire le résultat 🤞"> -->
     <div class="break"></div>
-    <button type="button" class="predire" onclick="calculateMin()">Combien pour valider ?</button>
+    <button type="button" class="predire" onclick="predict()">Combien pour valider ?</button>
     <div class="break"></div>
     <h2 class="resultat2">
     </h2>

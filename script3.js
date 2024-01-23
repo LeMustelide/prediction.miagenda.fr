@@ -15,6 +15,7 @@ let shareableLink = "";
 loadNotes();
 
 function nextNum(object) {
+    loadNotesFromCookiesAndDisplay();
     if (
         object.parentElement.parentElement
             .querySelector("#lock")
@@ -32,6 +33,7 @@ function nextNum(object) {
 }
 
 function prevNum(object) {
+    loadNotesFromCookiesAndDisplay();
     if (
         object.parentElement.parentElement
             .querySelector("#lock")
@@ -50,6 +52,7 @@ function prevNum(object) {
 }
 
 function lockNote(object) {
+    loadNotesFromCookiesAndDisplay();
     lock = object.parentElement.querySelector("#lock").innerHTML.trim();
     if (lock == "lock_open") {
         object.parentElement.querySelector("#lock").innerHTML = "lock";
@@ -76,18 +79,30 @@ function calculate() {
         }
     }
 
+    console.log(getNotes());
+
     // Fetch the data.json file
     fetch("data.json")
         .then((response) => response.json())
         .then((data) => {
             average = calculateAverage(data, className);
             if (average >= 10) {
-                document.querySelector(".title-resultat").innerHTML = "VAMOS 🙏";
-                document.querySelector(".resultat").innerHTML = "Tu devrais valider ton semestre avec "+average+" de moyenne";
+                saveNotes(getNotes());
+                document.querySelector(".title-resultat").innerHTML =
+                    "VAMOS 🙏";
+                document.querySelector(".resultat").innerHTML =
+                    "Tu devrais valider ton semestre avec " +
+                    average +
+                    " de moyenne";
                 document.querySelector(".resultat").style.color = "green";
             } else {
-                document.querySelector(".title-resultat").innerHTML = "Désolé.e 😢";
-                document.querySelector(".resultat").innerHTML = "Tu devrais terminer avec "+average+" de moyenne, ça ne valide pas ton semestre...";
+                saveNotes(getNotes());
+                document.querySelector(".title-resultat").innerHTML =
+                    "Désolé.e 😢";
+                document.querySelector(".resultat").innerHTML =
+                    "Tu devrais terminer avec " +
+                    average +
+                    " de moyenne, ça ne valide pas ton semestre...";
                 document.querySelector(".resultat").style.color = "red";
                 //updateNotes(data, average);
             }
@@ -124,12 +139,12 @@ function calculateAverage(data, className) {
                         formule += " + ";
                     }
 
-                    const coef = v["epreuve"][epreuve];                    
+                    const coef = v["epreuve"][epreuve];
                     const inputValue = parseFloat(
                         document.querySelector(`[name="${key}.${epreuve}"]`)
                             .value
                     );
-                    
+
                     notes[`${key}.${epreuve}`] = inputValue;
                     temp += coef * inputValue;
                     tempCoef += coef;
@@ -164,10 +179,20 @@ function calculateAverage(data, className) {
         formule += ` = ${miageMean}`;
 
         // console.log(formule); // Afficher la formule de calcul (facultatif)
-        document.querySelector(".formule").innerHTML = "La formule de calcul est : "+formule;
+        document.querySelector(".formule").innerHTML =
+            "La formule de calcul est : " + formule;
         shareableLink = generateShareableLink(notes);
         return moyenne;
     }
+}
+
+function getNotes() {
+    const inputs = document.querySelectorAll(".input");
+    let notes = {};
+    for (const input of inputs) {
+        notes[input.name] = input.value;
+    }
+    return notes;
 }
 
 function updateNotes(data) {
@@ -230,124 +255,151 @@ function findHighestOpenNoteObj() {
 }
 
 function calculateMin() {
-    if(average < 10) {
-      console.log("calculateMin");
-      updateNotes(data)
+    while (averageTmp > 10) {
+        const highestOpenNoteObj = findHighestOpenNoteObj();
+        console.log(
+            highestOpenNoteObj.parentElement.querySelector(".input").value
+        );
+        if (
+            highestOpenNoteObj == null ||
+            parseFloat(highestOpenNoteObj.value) <= 0
+        ) {
+            break;
+        }
+        const currentNote = parseFloat(highestOpenNoteObj.value);
+        highestOpenNoteObj.value = currentNote - 0.5;
+        highestOpenNoteObj.parentElement.querySelector(".input").value =
+            currentNote - 0.5;
+        averageTmp = calculateAverage(data, className);
+        document.querySelector(".resultat2").value = averageTmp;
+        if (averageTmp >= 10) {
+            highestOpenNoteObj.style.color = "yellow";
+        } else {
+            highestOpenNoteObj.value = currentNote + 0.5;
+            highestOpenNoteObj.parentElement.querySelector(".input").value =
+                currentNote + 0.5;
+            return;
+        }
+    }
+}
+
+function predict() {
+    if (average < 10) {
+        console.log("updateNotes");
+        updateNotes(data);
     } else {
-      console.log("calculateMax");
-      while (averageTmp > 10) {
-          const highestOpenNoteObj = findHighestOpenNoteObj();
-          console.log(
-              highestOpenNoteObj.parentElement.querySelector(".input").value
-          );
-          if (
-              highestOpenNoteObj == null ||
-              parseFloat(highestOpenNoteObj.value) <= 0
-          ) {
-              break;
-          }
-          const currentNote = parseFloat(highestOpenNoteObj.value);
-          highestOpenNoteObj.value = currentNote - 0.5;
-          highestOpenNoteObj.parentElement.querySelector(".input").value =
-              currentNote - 0.5;
-          averageTmp = calculateAverage(data, className);
-          document.querySelector(".resultat2").value = averageTmp;
-          if (averageTmp >= 10) {
-              highestOpenNoteObj.style.color = "yellow";
-          } else {
-              highestOpenNoteObj.value = currentNote + 0.5;
-              highestOpenNoteObj.parentElement.querySelector(".input").value =
-                  currentNote + 0.5;
-              return;
-          }
-      }
+        console.log("calculateMin");
+        calculateMin();
     }
 }
 
 function generateShareableLink(notes) {
-  // Créez un nouvel objet URLSearchParams
-  let params = new URLSearchParams();
+    // Créez un nouvel objet URLSearchParams
+    let params = new URLSearchParams();
 
-  // Parcourez chaque note et ajoutez-la aux paramètres de l'URL
-  params.append('class', className);
-  for (let subject in notes) {
-    params.append(subject, notes[subject]);
-  }
+    // Parcourez chaque note et ajoutez-la aux paramètres de l'URL
+    params.append("class", className);
+    for (let subject in notes) {
+        params.append(subject, notes[subject]);
+    }
 
-  // Générez l'URL finale en ajoutant les paramètres de l'URL à l'URL de base
-  let url = window.location.origin + window.location.pathname + '?' + params.toString();
+    // Générez l'URL finale en ajoutant les paramètres de l'URL à l'URL de base
+    let url =
+        window.location.origin +
+        window.location.pathname +
+        "?" +
+        params.toString();
 
-  return url;
+    return url;
 }
 
 function loadNotes() {
-  // Créez un nouvel objet URLSearchParams
-  let params = new URLSearchParams(window.location.search);
+    // Créez un nouvel objet URLSearchParams
+    let params = new URLSearchParams(window.location.search);
 
-  // Récupérez le nom de la classe
-  let className = params.get('class');
-
-  // Récupérez les notes
-  let notes = {};
-  for (let subject of params.keys()) {
-    if (subject !== 'class') {
-      notes[subject] = params.get(subject);
+    // Récupérez les notes
+    let notes = {};
+    for (let subject of params.keys()) {
+        if (subject !== "class") {
+            notes[subject] = params.get(subject);
+        }
     }
-  }
 
-  // Mettez à jour les notes
-  for (let subject in notes) {
-    document.querySelector(`[name="${subject}"]`).value = notes[subject];
-  }
+    // Mettez à jour les notes
+    for (let subject in notes) {
+        document.querySelector(`[name="${subject}"]`).value = notes[subject];
+    }
 
-  // Calculez la moyenne
-  calculate();
+    // Calculez la moyenne
+    calculate();
 }
 
 function copyLink() {
-  // Copiez l'URL dans le presse-papiers
-  navigator.clipboard.writeText(shareableLink).then(() => {
-    // Affichez un message de succès
-    document.querySelector('.copy-message').classList.add('show');
-    document.querySelector('.copy-message').classList.remove('hide');
-    setTimeout(() => {
-      document.querySelector('.copy-message').classList.remove('show');
-      document.querySelector('.copy-message').classList.add('hide');
-    }, 4000);
-  });
+    // Copiez l'URL dans le presse-papiers
+    navigator.clipboard.writeText(shareableLink).then(() => {
+        // Affichez un message de succès
+        document.querySelector(".copy-message").classList.add("show");
+        document.querySelector(".copy-message").classList.remove("hide");
+        setTimeout(() => {
+            document.querySelector(".copy-message").classList.remove("show");
+            document.querySelector(".copy-message").classList.add("hide");
+        }, 4000);
+    });
 }
 
 function verif(object) {
-  const min = parseFloat(object.getAttribute("min"));
-  const max = parseFloat(object.getAttribute("max"));
-  const value = parseFloat(object.value);
-  if (value < min) {
-    object.value = min;
-  } else if (value > max) {
-    object.value = max;
-  } else if (isNaN(object.value) && object.value != "") {
-    object.value = 0;
-  }
-  calculate();
+    const value = parseFloat(object.value);
+    loadNotesFromCookiesAndDisplay();
+    object.value = value;
+    const min = parseFloat(object.getAttribute("min"));
+    const max = parseFloat(object.getAttribute("max"));
+    if (value < min) {
+        object.value = min;
+    } else if (value > max) {
+        object.value = max;
+    } else if (isNaN(object.value) && object.value != "") {
+        object.value = 0;
+    }
+    calculate();
 }
 
 function verif2(object) {
-  object.value = Math.round(object.value * 100) / 100;
-  calculate();
+    object.value = Math.round(object.value * 100) / 100;
+    calculate();
 }
 
-// function selectNote(object) {
-//     const note = object.innerHTML;
-//     const input = object.parentElement.querySelector(".input");
-//     console.log(input);
-//     input.value = note;
-//     input.focus();
-//     input.select();
-// }
+// Sauvegarde les notes dans des cookies
+function saveNotes(notes) {
+    // Convert the data object to a JSON string
+    const notesString = JSON.stringify(notes);
 
-// function updateBox(object) {
-//     console.log(object);
-//     const box = object.parentElement.querySelector(".box");
-//     box.innerHTML = object.value;
-//     calculate();
-// }
+    // Save the JSON string in a cookie named "notes"
+    document.cookie = `notes=${notesString}`;
+}
+
+// Charge les notes depuis les cookies
+function loadNotesFromCookies() {
+    // Get the notes string from the "notes" cookie
+    const notesString = document.cookie.replace(
+        /(?:(?:^|.*;\s*)notes\s*\=\s*([^;]*).*$)|^.*$/,
+        "$1"
+    );
+
+    // Convert the notes string to a data object
+    const notes = JSON.parse(notesString);
+
+    // Return the notes object
+    return notes;
+}
+
+// Charge les notes depuis les cookies et les affiche
+function loadNotesFromCookiesAndDisplay() {
+    // Load the notes from the cookies
+    const notes = loadNotesFromCookies();
+
+    // Display the notes
+    for (const subject in notes) {
+        document.querySelector(`[name="${subject}"]`).value = notes[subject];
+        document.querySelector(`[name="${subject}"]`).style.color = "white";
+    }
+}
