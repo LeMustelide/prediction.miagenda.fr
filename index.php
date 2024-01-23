@@ -85,16 +85,19 @@ if (isset($_POST['submit'])) {
         include 'form.php';
     }
 
-    ?>
-    <div class="moyenne">
-        <div style="text-align: center;">
-            <h1 class="title-resultat">VAMOS 🙏</h1>
-            <div class="break"></div>
-            <h2 class="resultat"></h2>
-            <h3 class="formule">La formule de calcul est : <?= $formule; ?></h3>
+    
+    if (isset($_GET['class'])){
+        echo "
+        <div class='moyenne'>
+            <div style='text-align: center;'>
+                <h1 class='title-resultat'>VAMOS 🙏</h1>
+                <div class='break'></div>
+                <h2 class='resultat'></h2>
+                <h3 class='formule'>La formule de calcul est :</h3>
+            </div>
         </div>
-    </div>
+        ";
+    }
 
-    <?php
 
     include 'footer.php';

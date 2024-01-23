@@ -57,6 +57,7 @@ function lockNote(object) {
     } else {
         object.parentElement.querySelector("#lock").innerHTML = "lock_open";
     }
+    calculate();
 }
 
 function calculate() {
@@ -169,8 +170,10 @@ function calculateAverage(data, className) {
     }
 }
 
-function updateNotes(data, average) {
-    while (average < 10) {
+function updateNotes(data) {
+    averageTmp = calculateAverage(data, className);
+    console.log(averageTmp);
+    while (averageTmp < 10) {
         const lowestOpenNoteObj = findLowestOpenNoteObj();
         if (
             lowestOpenNoteObj == null ||
@@ -183,8 +186,8 @@ function updateNotes(data, average) {
         lowestOpenNoteObj.parentElement.querySelector(".input").value =
             currentNote + 0.5;
         lowestOpenNoteObj.style.color = "yellow";
-        average = calculateAverage(data, className);
-        document.querySelector(".resultat2").value = average;
+        averageTmp = calculateAverage(data, className);
+        document.querySelector(".resultat2").value = averageTmp;
     }
 }
 
@@ -228,9 +231,11 @@ function findHighestOpenNoteObj() {
 
 function calculateMin() {
     if(average < 10) {
-      updateNotes(data, average)
+      console.log("calculateMin");
+      updateNotes(data)
     } else {
-      while (average > 10) {
+      console.log("calculateMax");
+      while (averageTmp > 10) {
           const highestOpenNoteObj = findHighestOpenNoteObj();
           console.log(
               highestOpenNoteObj.parentElement.querySelector(".input").value
@@ -245,9 +250,9 @@ function calculateMin() {
           highestOpenNoteObj.value = currentNote - 0.5;
           highestOpenNoteObj.parentElement.querySelector(".input").value =
               currentNote - 0.5;
-          average = calculateAverage(data, className);
-          document.querySelector(".resultat2").value = average;
-          if (average >= 10) {
+          averageTmp = calculateAverage(data, className);
+          document.querySelector(".resultat2").value = averageTmp;
+          if (averageTmp >= 10) {
               highestOpenNoteObj.style.color = "yellow";
           } else {
               highestOpenNoteObj.value = currentNote + 0.5;

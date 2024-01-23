@@ -1,4 +1,4 @@
-<form action="#" method="POST" class="form">
+<form action="#" method="POST" class="form" novalidate>
     <a class="share-btn" onclick="copyLink()">
         <span class="material-symbols-outlined">
         share
@@ -32,7 +32,7 @@
                     <div class='notes-body'>
                         <label for='$epreuve' hi>$epreuve</label>
                         <div class='noteInput'>
-                            <input class='input box' type='text' min='0' max='20' onkeyup='verif(this)' onchange='verif2(this)' name='$k.$epreuve' value='".
+                            <input class='input box' type='number' min='0' max='20' onkeyup='verif(this)' onchange='verif2(this)' name='$k.$epreuve' value='".
                                 (isset($_POST[$k."_".$epreuve]) && $_POST[$k."_".$epreuve] != "" ? $_POST[$k."_".$epreuve] : 10)
                             ."'>
                             <div class='prev-btn' onclick='prevNum(this)'>
