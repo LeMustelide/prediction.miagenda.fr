@@ -158,7 +158,7 @@ function calculateAverage(data, className) {
                 miageCount += v["coef"];
             } else {
                 const inputValue = parseFloat(
-                    document.querySelector(`#${key}`).value
+                    document.querySelector(`[name="${key}"]`).value
                 );
 
                 miageSum += v["coef"] * inputValue;

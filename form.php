@@ -11,20 +11,22 @@
                 ";
         if(!isset($v['epreuve'])) {
             echo "
+            <div class='notes-body'>
                 <div class='noteInput'>
+                    <input class='input box' type='number' min='0' max='20' onkeyup='verif(this)' onchange='verif2(this)' name='$k' value='".
+                        (isset($_POST[$k]) && $_POST[$k] != "" ? $_POST[$k] : 10)
+                    ."'>
                     <div class='prev-btn' onclick='prevNum(this)'>
                         <span class='prev'></span>
                     </div>
                     <div class='next-btn' onclick='nextNum(this)'>
                         <span class='next'></span>
                     </div>
-                    <div class='box' min='0' max='20'>".
-                        (isset($_POST[$k]) && $_POST[$k] != "" ? $_POST[$k] : 10)
-                    ."</div>
-                    <input class='input' type='text' name='$k' value='".
-                        (isset($_POST[$k]) && $_POST[$k] != "" ? $_POST[$k] : 10)
-                    ."' hidden>
                 </div>
+                <span class='material-symbols-outlined' id='lock' onclick='lockNote(this)'>
+                    lock_open
+                </span>
+            </div>
             ";
         } else {
             foreach ($v['epreuve'] as $epreuve => $coef) {
