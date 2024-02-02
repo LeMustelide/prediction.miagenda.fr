@@ -161,6 +161,7 @@ function calculateAverage(data, className) {
                     document.querySelector(`[name="${key}"]`).value
                 );
 
+                notes[`${key}`] = inputValue;
                 miageSum += v["coef"] * inputValue;
                 miageCount += v["coef"];
 
